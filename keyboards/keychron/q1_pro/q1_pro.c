@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "q1_pro.h"
 #ifdef KC_BLUETOOTH_ENABLE
 #    include "ckbt51.h"
@@ -56,11 +55,13 @@ static void pairing_key_timer_cb(void *arg) {
 #endif
 
 bool dip_switch_update_kb(uint8_t index, bool active) {
-    if (index == 0) {
-        default_layer_set(1UL << (active ? 2 : 0));
+    //dip switch works only in wired mode, in bluetooth mode its switching automatically
+    if (get_transport() != TRANSPORT_BLUETOOTH) {
+        if (index == 0) {
+            default_layer_set(1UL << (active ? 2 : 0));
+        }
+        dip_switch_update_user(index, active);
     }
-    dip_switch_update_user(index, active);
-
     return true;
 }
 
@@ -115,8 +116,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case BAT_LVL:
-            if (get_transport() == TRANSPORT_BLUETOOTH && !usb_power_connected()) {
+            if (record->event.pressed && get_transport() == TRANSPORT_BLUETOOTH && !usb_power_connected()) {
                 bat_level_animiation_start(battery_get_percentage());
+                return false;
             }
             break;
 #endif

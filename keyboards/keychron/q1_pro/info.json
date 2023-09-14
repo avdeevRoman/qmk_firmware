@@ -9,7 +9,7 @@
     	"vid": "0x3434"
     },
     "features": {
-        "bootmagic": true,
+        "bootmagic": false,
         "mousekey": true,
         "extrakey": true,
         "nkro": true,

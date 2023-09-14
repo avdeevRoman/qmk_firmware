@@ -207,6 +207,16 @@ static void bluetooth_enter_connected(uint8_t host_idx) {
 
     clear_keyboard();
 
+    //custom
+    // switching default layer based on connected device
+    if ((host_idx) == 1) {
+        default_layer_set(1 << 0);
+    } else if ((host_idx) == 2) {
+        default_layer_set(1 << 2);
+    } else if ((host_idx) == 3) {
+        default_layer_set(1 << 0);
+    }
+
     /* Enable NKRO since it may be disabled in pin code entry */
 #if defined(NKRO_ENABLE) && defined(BLUETOOTH_NKRO_ENABLE)
     keymap_config.nkro = nkro.bluetooth;
