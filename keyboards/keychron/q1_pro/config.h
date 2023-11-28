@@ -16,6 +16,8 @@
 
 #pragma once
 
+#define FORCE_NKRO
+
 /* Turn off effects when suspended */
 #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
